@@ -1,0 +1,140 @@
+.admin-login {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.admin-login__form {
+  width: 100%;
+  max-width: 340px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.admin {
+  min-height: 100vh;
+}
+
+.admin__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--borda);
+}
+
+.admin__tabs {
+  display: flex;
+  gap: 0.4rem;
+  padding: 1rem 1.5rem 0;
+  flex-wrap: wrap;
+}
+
+.admin__tab {
+  background: var(--bg-elevado);
+  border: 1px solid var(--borda);
+  color: var(--texto-fraco);
+  padding: 0.6rem 1rem;
+  border-radius: 4px 4px 0 0;
+  font-family: var(--fonte-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.admin__tab--ativa {
+  color: var(--texto);
+  border-color: var(--destaque);
+  border-bottom-color: var(--bg);
+}
+
+.admin__conteudo {
+  padding: 1.5rem;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.admin-table th,
+.admin-table td {
+  text-align: left;
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--borda);
+}
+
+.admin-table th {
+  font-family: var(--fonte-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: var(--texto-fraco);
+}
+
+.admin-table input[type='number'],
+.admin-table input[type='text'],
+.admin-table input[type='date'] {
+  width: 100%;
+  min-width: 70px;
+  padding: 0.4rem 0.5rem;
+}
+
+.admin-badge {
+  font-family: var(--fonte-mono);
+  font-size: 0.65rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 2px;
+  text-transform: uppercase;
+}
+
+.admin-badge--ok {
+  background: rgba(76, 175, 106, 0.15);
+  color: var(--sucesso);
+}
+
+.admin-badge--aviso {
+  background: rgba(212, 161, 42, 0.15);
+  color: var(--aviso);
+}
+
+.admin-badge--erro {
+  background: rgba(212, 58, 42, 0.15);
+  color: var(--destaque);
+}
+
+.admin-secao-titulo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.admin-form-inline {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.6rem;
+  padding: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.admin-financeiro-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.admin-financeiro-card {
+  padding: 1rem;
+}
+
+.admin-financeiro-card .valor {
+  font-family: var(--fonte-mono);
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-top: 0.3rem;
+}

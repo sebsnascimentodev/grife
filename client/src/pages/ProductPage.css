@@ -1,0 +1,142 @@
+.product-page {
+  padding: 2rem 0 4rem;
+}
+
+.product-page__topo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+}
+
+@media (max-width: 800px) {
+  .product-page__topo {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+.product-page__imagem {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: 4px;
+  background: linear-gradient(160deg, #2a251d, #1a1712);
+  border: 1px solid var(--borda);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-page__imagem .titulo {
+  font-size: 7rem;
+  color: var(--texto-fraco);
+}
+
+.product-page__imagem .tag {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+}
+
+.product-page__detalhes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.product-page__nome {
+  font-size: 2rem;
+}
+
+.product-page__preco {
+  font-family: var(--fonte-mono);
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0.5rem 0;
+}
+
+.product-page__preco-original {
+  font-weight: 400;
+  text-decoration: line-through;
+  color: var(--texto-fraco);
+  margin-right: 0.6rem;
+  font-size: 0.75em;
+}
+
+.product-page__descricao {
+  color: var(--texto-fraco);
+  margin: 0.5rem 0 1.25rem;
+  max-width: 46ch;
+}
+
+.product-page__tamanhos {
+  margin-bottom: 1.25rem;
+}
+
+.product-page__tamanhos-lista {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+  padding: 0.25rem;
+  border-radius: 4px;
+}
+
+.product-page__tamanhos-lista--erro {
+  outline: 1px solid var(--destaque);
+}
+
+.product-page__tamanho {
+  min-width: 3rem;
+  padding: 0.6rem 0.8rem;
+  background: var(--bg-elevado);
+  border: 1px solid var(--borda);
+  color: var(--texto);
+  font-family: var(--fonte-mono);
+  border-radius: 4px;
+}
+
+.product-page__tamanho--ativo {
+  border-color: var(--destaque);
+  background: var(--destaque);
+  color: #fff;
+}
+
+.product-page__tamanho:disabled {
+  color: var(--texto-fraco);
+  text-decoration: line-through;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.product-page__btn {
+  width: fit-content;
+}
+
+.product-page__estoque {
+  margin-top: 0.5rem;
+}
+
+.product-page__relacionados {
+  margin-top: 4rem;
+}
+
+.product-page__relacionados h2 {
+  margin-bottom: 1.25rem;
+  font-size: 1.6rem;
+}
+
+.product-page__relacionados-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+
+@media (max-width: 960px) {
+  .product-page__relacionados-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.product-page__voltar {
+  margin-top: 3rem;
+}

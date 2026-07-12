@@ -1,0 +1,155 @@
+.cart {
+  padding: 2rem 0 4rem;
+}
+
+.cart--vazio {
+  text-align: center;
+  padding: 6rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.cart__frete-msg {
+  background: var(--bg-elevado);
+  border: 1px solid var(--destaque);
+  color: var(--texto);
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  margin: 1rem 0 1.5rem;
+}
+
+.cart__layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+@media (max-width: 800px) {
+  .cart__layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cart__itens {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.cart__item {
+  display: grid;
+  grid-template-columns: 90px 1fr auto;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.cart__item-imagem {
+  aspect-ratio: 1;
+  background: linear-gradient(160deg, #2a251d, #1a1712);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart__item-imagem .titulo {
+  font-size: 2rem;
+  color: var(--texto-fraco);
+}
+
+.cart__item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.cart__item-nome {
+  font-weight: 700;
+}
+
+.cart__item-qtd {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.4rem;
+}
+
+.cart__item-qtd button {
+  width: 1.8rem;
+  height: 1.8rem;
+  background: var(--bg-elevado);
+  border: 1px solid var(--borda);
+  color: var(--texto);
+  border-radius: 4px;
+}
+
+.cart__item-qtd button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.cart__item-remover {
+  background: none;
+  border: none;
+  color: var(--texto-fraco);
+  text-decoration: underline;
+  width: fit-content;
+  margin-top: 0.4rem;
+  font-size: 0.7rem;
+}
+
+.cart__item-precos {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  white-space: nowrap;
+}
+
+.cart__item-subtotal {
+  font-weight: 700;
+  font-family: var(--fonte-mono);
+}
+
+.cart__resumo {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: sticky;
+  top: 90px;
+}
+
+.cart__cupom {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.cart__cupom input {
+  flex: 1;
+}
+
+.cart__cupom-ok {
+  color: var(--sucesso);
+}
+
+.cart__linha {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+}
+
+.cart__linha--total {
+  border-top: 1px solid var(--borda);
+  padding-top: 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.cart__finalizar {
+  margin-top: 0.5rem;
+}

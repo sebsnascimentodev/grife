@@ -1,0 +1,48 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--bg);
+  border-bottom: 1px solid var(--borda);
+}
+
+.header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
+}
+
+.header__logo {
+  font-size: 1.6rem;
+  letter-spacing: 0.03em;
+}
+
+.header__ponto {
+  color: var(--destaque);
+}
+
+.header__carrinho {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0.4rem;
+}
+
+.header__contador {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: var(--destaque);
+  color: #fff;
+  font-family: var(--fonte-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+}
