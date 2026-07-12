@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext.jsx';
 import { useStore } from '../context/StoreContext.jsx';
 import { criarPedido } from '../api.js';
 import { formatarPreco, calcularSubtotal } from '../utils.js';
+import { buscarEnderecoPorCep } from '../cep.js';
 import PaymentBrick from '../components/PaymentBrick.jsx';
 import './Checkout.css';
 
@@ -25,6 +26,42 @@ export default function Checkout() {
   const [metodoEnvio, setMetodoEnvio] = useState('padrao');
   const [processandoPedido, setProcessandoPedido] = useState(false);
   const [erro, setErro] = useState(null);
+  const [buscandoCep, setBuscandoCep] = useState(false);
+  const [erroCep, setErroCep] = useState(null);
+
+  useEffect(() => {
+    const cepLimpo = endereco.cep.replace(/\D/g, '');
+    if (cepLimpo.length !== 8) {
+      setErroCep(null);
+      return;
+    }
+    let cancelado = false;
+    const timer = setTimeout(async () => {
+      setBuscandoCep(true);
+      setErroCep(null);
+      try {
+        const encontrado = await buscarEnderecoPorCep(cepLimpo);
+        if (!cancelado && encontrado) {
+          setEndereco((atual) => ({
+            ...atual,
+            rua: encontrado.rua || atual.rua,
+            cidade: encontrado.cidade || atual.cidade,
+            uf: encontrado.uf || atual.uf,
+          }));
+        }
+      } catch (e) {
+        if (!cancelado) setErroCep(e.message);
+      } finally {
+        if (!cancelado) setBuscandoCep(false);
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, 500);
+    return () => {
+      cancelado = true;
+      clearTimeout(timer);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [endereco.cep]);
 
   const subtotal = calcularSubtotal(itens, produtos);
   const freteGratis = envio && metodoEnvio === 'padrao' && subtotal >= envio.freteGratisMinimo;
@@ -112,6 +149,8 @@ export default function Checkout() {
                 onChange={(e) => setEndereco({ ...endereco, cidade: e.target.value })}
               />
             </div>
+            {buscandoCep && <p className="mono">Buscando endereço...</p>}
+            {erroCep && <p className="erro-texto">{erroCep}</p>}
             <input
               placeholder="Rua"
               required
