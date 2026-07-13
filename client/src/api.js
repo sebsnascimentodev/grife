@@ -1,4 +1,4 @@
-const TOKEN_KEY = 'grife_admin_token';
+const TOKEN_KEY = 'grife_token';
 
 export function getToken() {
   return localStorage.getItem(TOKEN_KEY);
@@ -39,10 +39,16 @@ export const criarPedido = (payload) => request('/pedidos', { method: 'POST', bo
 export const obterChavePublicaMP = () => request('/pagamento/chave-publica');
 export const processarPagamento = (formData) =>
   request('/pagamento/processar', { method: 'POST', body: formData });
-export const adminLogin = (usuario, senha) =>
-  request('/admin/login', { method: 'POST', body: { usuario, senha } });
+
+// --- Conta (cliente ou admin) ---
+export const registrarUsuario = (payload) => request('/usuarios/registrar', { method: 'POST', body: payload });
+export const loginUsuario = (email, senha) =>
+  request('/usuarios/login', { method: 'POST', body: { email, senha } });
+export const obterUsuarioAtual = () => request('/usuarios/me', { auth: true });
 
 // --- Admin ---
+export const listarAdmins = () => request('/usuarios/admins', { auth: true });
+export const criarAdmin = (payload) => request('/usuarios/admins', { method: 'POST', body: payload, auth: true });
 export const atualizarPreco = (id, preco) =>
   request(`/produtos/${id}/preco`, { method: 'PUT', body: { preco }, auth: true });
 export const atualizarPromocao = (id, promocao) =>

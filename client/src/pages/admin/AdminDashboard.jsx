@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { useStore } from '../../context/StoreContext.jsx';
-import { useAdminAuth } from '../../context/AdminAuthContext.jsx';
+import { useAuth } from '../../context/AuthContext.jsx';
 import Estoque from './tabs/Estoque.jsx';
 import Precos from './tabs/Precos.jsx';
 import Promocoes from './tabs/Promocoes.jsx';
 import Cupons from './tabs/Cupons.jsx';
 import Financeiro from './tabs/Financeiro.jsx';
 import Envio from './tabs/Envio.jsx';
+import Admins from './tabs/Admins.jsx';
 import './Admin.css';
 
 const ABAS = [
@@ -16,11 +17,12 @@ const ABAS = [
   { chave: 'cupons', rotulo: 'Cupons' },
   { chave: 'financeiro', rotulo: 'Saldo / Financeiro' },
   { chave: 'envio', rotulo: 'Envio' },
+  { chave: 'admins', rotulo: 'Admins' },
 ];
 
 export default function AdminDashboard() {
   const { produtos, envio, recarregar } = useStore();
-  const { logout } = useAdminAuth();
+  const { usuario, logout } = useAuth();
   const [aba, setAba] = useState('estoque');
 
   return (
@@ -29,9 +31,12 @@ export default function AdminDashboard() {
         <h1 className="titulo">
           GRIFE<span style={{ color: 'var(--destaque)' }}>.</span> Admin
         </h1>
-        <button className="btn-outline btn" onClick={logout}>
-          Sair
-        </button>
+        <div className="admin__header-conta">
+          <span className="mono">{usuario.nome}</span>
+          <button className="btn-outline btn" onClick={logout}>
+            Sair
+          </button>
+        </div>
       </header>
 
       <nav className="admin__tabs">
@@ -53,6 +58,7 @@ export default function AdminDashboard() {
         {aba === 'cupons' && <Cupons />}
         {aba === 'financeiro' && <Financeiro />}
         {aba === 'envio' && envio && <Envio key={JSON.stringify(envio)} envio={envio} recarregar={recarregar} />}
+        {aba === 'admins' && <Admins />}
       </div>
     </div>
   );

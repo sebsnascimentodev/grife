@@ -206,5 +206,6 @@
     "padrao": { "custo": 29.90, "prazo": "7 a 10 dias úteis" },
     "expresso": { "custo": 59.90, "prazo": "2 a 4 dias úteis" },
     "freteGratisMinimo": 500
-  }
+  },
+  "usuarios": []
 }

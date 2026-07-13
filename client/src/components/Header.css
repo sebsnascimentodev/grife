@@ -22,6 +22,20 @@
   color: var(--destaque);
 }
 
+.header__acoes {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.header__conta {
+  color: var(--texto-fraco);
+}
+
+.header__conta:hover {
+  color: var(--texto);
+}
+
 .header__carrinho {
   position: relative;
   display: flex;

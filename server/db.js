@@ -34,6 +34,8 @@ export async function readDb() {
         cache = JSON.parse(await readFile(SEED_PATH, 'utf-8'));
         await redis.set(REDIS_KEY, JSON.stringify(cache));
       }
+      // Migração leve: bancos criados antes do sistema de contas não têm este campo.
+      if (!cache.usuarios) cache.usuarios = [];
       return cache;
     })();
   }

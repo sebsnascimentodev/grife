@@ -7,34 +7,43 @@ function sign(payloadB64) {
   return createHmac('sha256', SECRET).update(payloadB64).digest('base64url');
 }
 
-export function issueToken(usuario) {
-  const payload = { u: usuario, exp: Date.now() + TOKEN_TTL_MS };
+export function issueToken({ id, papel }) {
+  const payload = { id, papel, exp: Date.now() + TOKEN_TTL_MS };
   const payloadB64 = Buffer.from(JSON.stringify(payload)).toString('base64url');
   return `${payloadB64}.${sign(payloadB64)}`;
 }
 
-export function requireAdmin(req, res, next) {
+function lerToken(req) {
   const header = req.headers.authorization || '';
   const [scheme, token] = header.split(' ');
-  if (scheme !== 'Bearer' || !token || !token.includes('.')) {
-    return res.status(401).json({ erro: 'Não autenticado' });
-  }
+  if (scheme !== 'Bearer' || !token || !token.includes('.')) return null;
+
   const [payloadB64, signature] = token.split('.');
   const expected = sign(payloadB64);
   const a = Buffer.from(signature);
   const b = Buffer.from(expected);
-  if (a.length !== b.length || !timingSafeEqual(a, b)) {
-    return res.status(401).json({ erro: 'Token inválido' });
-  }
-  let payload;
+  if (a.length !== b.length || !timingSafeEqual(a, b)) return null;
+
   try {
-    payload = JSON.parse(Buffer.from(payloadB64, 'base64url').toString('utf-8'));
+    const payload = JSON.parse(Buffer.from(payloadB64, 'base64url').toString('utf-8'));
+    if (!payload.exp || Date.now() > payload.exp) return null;
+    return payload;
   } catch {
-    return res.status(401).json({ erro: 'Token inválido' });
+    return null;
   }
-  if (!payload.exp || Date.now() > payload.exp) {
-    return res.status(401).json({ erro: 'Sessão expirada' });
-  }
-  req.admin = payload.u;
+}
+
+export function requireAuth(req, res, next) {
+  const payload = lerToken(req);
+  if (!payload) return res.status(401).json({ erro: 'Não autenticado' });
+  req.usuario = payload;
+  next();
+}
+
+export function requireAdmin(req, res, next) {
+  const payload = lerToken(req);
+  if (!payload) return res.status(401).json({ erro: 'Não autenticado' });
+  if (payload.papel !== 'admin') return res.status(403).json({ erro: 'Acesso restrito a administradores' });
+  req.usuario = payload;
   next();
 }

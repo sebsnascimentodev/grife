@@ -27,6 +27,12 @@
   border-bottom: 1px solid var(--borda);
 }
 
+.admin__header-conta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 .admin__tabs {
   display: flex;
   gap: 0.4rem;

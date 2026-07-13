@@ -1,0 +1,13 @@
+.account {
+  padding: 3rem 0;
+  max-width: 420px;
+}
+
+.account__form,
+.account__resumo {
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}

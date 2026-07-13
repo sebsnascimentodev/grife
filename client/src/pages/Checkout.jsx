@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext.jsx';
 import { useStore } from '../context/StoreContext.jsx';
+import { useAuth } from '../context/AuthContext.jsx';
 import { criarPedido } from '../api.js';
 import { formatarPreco, calcularSubtotal } from '../utils.js';
 import { buscarEnderecoPorCep } from '../cep.js';
 import PaymentBrick from '../components/PaymentBrick.jsx';
+import AuthForms from '../components/AuthForms.jsx';
 import './Checkout.css';
 
 const UFS = [
@@ -16,12 +18,22 @@ const UFS = [
 export default function Checkout() {
   const { itens, limpar } = useCart();
   const { produtos, envio } = useStore();
+  const { usuario, autenticado } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
 
   const cupomCarrinho = location.state?.cupom ?? null;
 
   const [cliente, setCliente] = useState({ nome: '', email: '', telefone: '' });
+
+  useEffect(() => {
+    if (!usuario) return;
+    setCliente((atual) => ({
+      ...atual,
+      nome: atual.nome || usuario.nome,
+      email: atual.email || usuario.email,
+    }));
+  }, [usuario]);
   const [endereco, setEndereco] = useState({ cep: '', rua: '', numero: '', complemento: '', cidade: '', uf: 'SP' });
   const [metodoEnvio, setMetodoEnvio] = useState('padrao');
   const [processandoPedido, setProcessandoPedido] = useState(false);
@@ -76,6 +88,33 @@ export default function Checkout() {
     return (
       <div className="container checkout">
         <p className="mono">Sua sacola está vazia.</p>
+      </div>
+    );
+  }
+
+  if (!autenticado) {
+    return (
+      <div className="container checkout">
+        <h1 className="titulo">Checkout</h1>
+        <div className="checkout__layout">
+          <section className="card checkout__secao checkout__gate">
+            <h2 className="mono">Entre ou crie uma conta para finalizar a compra</h2>
+            <p className="mono">Navegar, montar a sacola e aplicar cupom continuam livres — só o checkout pede login.</p>
+            <AuthForms />
+          </section>
+
+          <aside className="card checkout__resumo">
+            <h2 className="mono">Resumo do pedido</h2>
+            <div className="cart__linha">
+              <span className="mono">Subtotal</span>
+              <span>{formatarPreco(subtotal)}</span>
+            </div>
+            <div className="cart__linha cart__linha--total">
+              <span className="mono">Total estimado</span>
+              <span>{formatarPreco(subtotal)}</span>
+            </div>
+          </aside>
+        </div>
       </div>
     );
   }

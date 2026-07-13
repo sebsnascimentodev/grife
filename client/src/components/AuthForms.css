@@ -1,0 +1,30 @@
+.auth-forms {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.auth-forms__tabs {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.auth-forms__tab {
+  flex: 1;
+  background: var(--bg);
+  border: 1px solid var(--borda);
+  color: var(--texto-fraco);
+  padding: 0.7rem;
+  border-radius: 4px;
+}
+
+.auth-forms__tab--ativa {
+  border-color: var(--destaque);
+  color: var(--texto);
+}
+
+.auth-forms__form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
