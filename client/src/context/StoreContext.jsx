@@ -3,7 +3,7 @@ import { getProdutos, getEnvio } from '../api.js';
 
 const StoreContext = createContext(null);
 
-export function StoreProvider({ children }) {
+export function StoreProvider({ slug, children }) {
   const [produtos, setProdutos] = useState([]);
   const [envio, setEnvio] = useState(null);
   const [carregando, setCarregando] = useState(true);
@@ -12,7 +12,7 @@ export function StoreProvider({ children }) {
   const recarregar = useCallback(async () => {
     setCarregando(true);
     try {
-      const [produtosData, envioData] = await Promise.all([getProdutos(), getEnvio()]);
+      const [produtosData, envioData] = await Promise.all([getProdutos(slug), getEnvio(slug)]);
       setProdutos(produtosData);
       setEnvio(envioData);
       setErro(null);
@@ -21,14 +21,14 @@ export function StoreProvider({ children }) {
     } finally {
       setCarregando(false);
     }
-  }, []);
+  }, [slug]);
 
   useEffect(() => {
     recarregar();
   }, [recarregar]);
 
   return (
-    <StoreContext.Provider value={{ produtos, envio, carregando, erro, recarregar }}>
+    <StoreContext.Provider value={{ slug, produtos, envio, carregando, erro, recarregar }}>
       {children}
     </StoreContext.Provider>
   );

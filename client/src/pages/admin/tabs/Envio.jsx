@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { atualizarEnvio } from '../../../api.js';
 
-export default function Envio({ envio, recarregar }) {
+export default function Envio({ slug, envio, recarregar }) {
   const [form, setForm] = useState(envio);
   const [salvando, setSalvando] = useState(false);
   const [salvo, setSalvo] = useState(false);
@@ -9,7 +9,7 @@ export default function Envio({ envio, recarregar }) {
   async function salvar(e) {
     e.preventDefault();
     setSalvando(true);
-    await atualizarEnvio(form);
+    await atualizarEnvio(slug, form);
     await recarregar();
     setSalvando(false);
     setSalvo(true);

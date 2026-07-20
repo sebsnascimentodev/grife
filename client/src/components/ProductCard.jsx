@@ -1,14 +1,20 @@
 import { Link } from 'react-router-dom';
-import { formatarPreco } from '../utils.js';
+import { useStore } from '../context/StoreContext.jsx';
+import { caminhoLoja, formatarPreco } from '../utils.js';
 import './ProductCard.css';
 
 export default function ProductCard({ produto }) {
+  const { slug } = useStore();
   const esgotado = produto.variacoes.every((v) => v.estoque === 0);
 
   return (
-    <Link to={`/produto/${produto.id}`} className="product-card">
+    <Link to={caminhoLoja(slug, `/produto/${produto.id}`)} className="product-card">
       <div className="product-card__imagem">
-        <span className="titulo">{produto.marca[0]}</span>
+        {produto.imagem ? (
+          <img src={produto.imagem} alt={produto.nome} loading="lazy" />
+        ) : (
+          <span className="titulo">{produto.marca[0]}</span>
+        )}
         {produto.tagExibida && <span className="tag product-card__tag">{produto.tagExibida}</span>}
         {esgotado && <span className="tag tag-esgotado product-card__tag product-card__tag--esgotado">ESGOTADO</span>}
       </div>

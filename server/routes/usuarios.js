@@ -1,10 +1,9 @@
-import { randomUUID } from 'crypto';
 import { Router } from 'express';
 import rateLimit from 'express-rate-limit';
 import { readDb, writeDb } from '../db.js';
-import { requireAuth, requireAdmin, issueToken } from '../auth.js';
-import { cpfValido, limparCpf } from '../cpf.js';
-import { gerarHashSenha, verificarSenha } from '../senha.js';
+import { requireAuth, requireSuperAdmin, issueToken } from '../auth.js';
+import { verificarSenha } from '../senha.js';
+import { sanitizar, criarUsuario } from '../contas.js';
 
 const router = Router();
 
@@ -15,44 +14,6 @@ const loginLimiter = rateLimit({
   legacyHeaders: false,
   message: { erro: 'Muitas tentativas de login. Tente novamente mais tarde.' },
 });
-
-function sanitizar(usuario) {
-  const { senhaHash, ...resto } = usuario;
-  return resto;
-}
-
-async function criarUsuario({ nome, email, cpf, senha, papel }, db) {
-  const emailNormalizado = String(email || '').trim().toLowerCase();
-  const cpfLimpo = limparCpf(cpf);
-
-  if (!nome || !emailNormalizado || !senha) {
-    throw { status: 400, erro: 'Nome, e-mail e senha são obrigatórios' };
-  }
-  if (senha.length < 6) {
-    throw { status: 400, erro: 'A senha precisa ter pelo menos 6 caracteres' };
-  }
-  if (!cpfValido(cpfLimpo)) {
-    throw { status: 400, erro: 'CPF inválido' };
-  }
-  if (db.usuarios.some((u) => u.email === emailNormalizado)) {
-    throw { status: 409, erro: 'Já existe uma conta com este e-mail' };
-  }
-  if (db.usuarios.some((u) => u.cpf === cpfLimpo)) {
-    throw { status: 409, erro: 'Este CPF já está associado a uma conta' };
-  }
-
-  const usuario = {
-    id: randomUUID(),
-    nome,
-    email: emailNormalizado,
-    cpf: cpfLimpo,
-    senhaHash: gerarHashSenha(senha),
-    papel,
-    criadoEm: new Date().toISOString(),
-  };
-  db.usuarios.push(usuario);
-  return usuario;
-}
 
 router.post('/registrar', loginLimiter, async (req, res) => {
   const db = await readDb();
@@ -82,16 +43,17 @@ router.get('/me', requireAuth, async (req, res) => {
   res.json(sanitizar(usuario));
 });
 
-// --- Admin: gestão de administradores ---
-router.get('/admins', requireAdmin, async (req, res) => {
+// --- Super admin: gestão de contas da plataforma (não confundir com admins de loja,
+// que são criados em POST /api/lojas/:slug/admins) ---
+router.get('/admins', requireSuperAdmin, async (req, res) => {
   const db = await readDb();
-  res.json(db.usuarios.filter((u) => u.papel === 'admin').map(sanitizar));
+  res.json(db.usuarios.filter((u) => u.papel === 'superadmin').map(sanitizar));
 });
 
-router.post('/admins', requireAdmin, async (req, res) => {
+router.post('/admins', requireSuperAdmin, async (req, res) => {
   const db = await readDb();
   try {
-    const usuario = await criarUsuario({ ...req.body, papel: 'admin' }, db);
+    const usuario = await criarUsuario({ ...req.body, papel: 'superadmin' }, db);
     await writeDb(db);
     res.status(201).json(sanitizar(usuario));
   } catch (e) {

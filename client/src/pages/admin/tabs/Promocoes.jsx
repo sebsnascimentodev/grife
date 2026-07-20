@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { atualizarPromocao } from '../../../api.js';
 
-export default function Promocoes({ produtos, recarregar }) {
+export default function Promocoes({ slug, produtos, recarregar }) {
   const [rascunhos, setRascunhos] = useState({});
 
   function rascunho(produto) {
@@ -17,7 +17,7 @@ export default function Promocoes({ produtos, recarregar }) {
 
   async function salvar(produtoId) {
     const promocao = rascunho(produtos.find((p) => p.id === produtoId));
-    await atualizarPromocao(produtoId, promocao);
+    await atualizarPromocao(slug, produtoId, promocao);
     await recarregar();
   }
 

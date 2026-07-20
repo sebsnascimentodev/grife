@@ -20,7 +20,7 @@ const ABAS = [
   { chave: 'admins', rotulo: 'Admins' },
 ];
 
-export default function AdminDashboard() {
+export default function AdminDashboard({ slug }) {
   const { produtos, envio, recarregar } = useStore();
   const { usuario, logout } = useAuth();
   const [aba, setAba] = useState('estoque');
@@ -52,13 +52,15 @@ export default function AdminDashboard() {
       </nav>
 
       <div className="admin__conteudo">
-        {aba === 'estoque' && <Estoque produtos={produtos} recarregar={recarregar} />}
-        {aba === 'precos' && <Precos produtos={produtos} recarregar={recarregar} />}
-        {aba === 'promocoes' && <Promocoes produtos={produtos} recarregar={recarregar} />}
-        {aba === 'cupons' && <Cupons />}
-        {aba === 'financeiro' && <Financeiro />}
-        {aba === 'envio' && envio && <Envio key={JSON.stringify(envio)} envio={envio} recarregar={recarregar} />}
-        {aba === 'admins' && <Admins />}
+        {aba === 'estoque' && <Estoque slug={slug} produtos={produtos} recarregar={recarregar} />}
+        {aba === 'precos' && <Precos slug={slug} produtos={produtos} recarregar={recarregar} />}
+        {aba === 'promocoes' && <Promocoes slug={slug} produtos={produtos} recarregar={recarregar} />}
+        {aba === 'cupons' && <Cupons slug={slug} />}
+        {aba === 'financeiro' && <Financeiro slug={slug} />}
+        {aba === 'envio' && envio && (
+          <Envio key={JSON.stringify(envio)} slug={slug} envio={envio} recarregar={recarregar} />
+        )}
+        {aba === 'admins' && <Admins slug={slug} />}
       </div>
     </div>
   );

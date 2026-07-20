@@ -31,6 +31,13 @@
   color: var(--texto-fraco);
 }
 
+.product-page__imagem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
 .product-page__imagem .tag {
   position: absolute;
   top: 1rem;

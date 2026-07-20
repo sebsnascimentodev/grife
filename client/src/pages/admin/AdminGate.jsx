@@ -1,9 +1,10 @@
 import { useAuth } from '../../context/AuthContext.jsx';
 import AdminLogin from './AdminLogin.jsx';
-import AdminDashboard from './AdminDashboard.jsx';
+import PlatformDashboard from './PlatformDashboard.jsx';
 
+// Gate do super admin (dono da plataforma) — /gerenciar-x9k2
 export default function AdminGate() {
-  const { ehAdmin, carregando } = useAuth();
+  const { ehSuperAdmin, carregando } = useAuth();
   if (carregando) return null;
-  return ehAdmin ? <AdminDashboard /> : <AdminLogin />;
+  return ehSuperAdmin ? <PlatformDashboard /> : <AdminLogin />;
 }

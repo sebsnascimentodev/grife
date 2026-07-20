@@ -18,24 +18,24 @@ const badgeStatus = {
   inativo: 'admin-badge--aviso',
 };
 
-export default function Cupons() {
+export default function Cupons({ slug }) {
   const [cupons, setCupons] = useState([]);
   const [novo, setNovo] = useState(CUPOM_VAZIO);
   const [erro, setErro] = useState(null);
 
   async function carregar() {
-    setCupons(await listarCupons());
+    setCupons(await listarCupons(slug));
   }
 
   useEffect(() => {
     carregar();
-  }, []);
+  }, [slug]);
 
   async function onCriar(e) {
     e.preventDefault();
     setErro(null);
     try {
-      await criarCupom({ ...novo, codigo: novo.codigo.toUpperCase() });
+      await criarCupom(slug, { ...novo, codigo: novo.codigo.toUpperCase() });
       setNovo(CUPOM_VAZIO);
       await carregar();
     } catch (e) {
@@ -44,12 +44,12 @@ export default function Cupons() {
   }
 
   async function toggleAtivo(cupom) {
-    await atualizarCupom(cupom.codigo, { ativo: !cupom.ativo });
+    await atualizarCupom(slug, cupom.codigo, { ativo: !cupom.ativo });
     await carregar();
   }
 
   async function remover(codigo) {
-    await excluirCupom(codigo);
+    await excluirCupom(slug, codigo);
     await carregar();
   }
 

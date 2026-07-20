@@ -1,17 +1,19 @@
 import { Router } from 'express';
-import { readDb, writeDb } from '../db.js';
+import { writeDb } from '../db.js';
 import { precoEfetivo, formatarNumeroPedido, calcularDescontoCupom, cupomStatus } from '../helpers.js';
-import { requireAdmin } from '../auth.js';
+import { requireLojaAdmin } from '../auth.js';
+import { requireLojaAtiva } from './lojas.js';
 
 const router = Router();
 
-router.get('/', requireAdmin, async (req, res) => {
-  const db = await readDb();
-  res.json(db.pedidos);
+router.get('/', requireLojaAdmin, async (req, res) => {
+  res.json(req.db.pedidos.filter((p) => p.lojaId === req.loja.id));
 });
 
-router.post('/', async (req, res) => {
+router.post('/', requireLojaAtiva, async (req, res) => {
   const { cliente, endereco, itens, metodoEnvio, cupomCodigo, pagamento } = req.body;
+  const db = req.db;
+  const loja = req.loja;
 
   if (!cliente?.nome || !cliente?.email || !cliente?.telefone) {
     return res.status(400).json({ erro: 'Dados do cliente incompletos' });
@@ -29,11 +31,9 @@ router.post('/', async (req, res) => {
     return res.status(400).json({ erro: 'Método de pagamento não informado' });
   }
 
-  const db = await readDb();
-
   const itensProcessados = [];
   for (const item of itens) {
-    const produto = db.produtos.find((p) => p.id === item.produtoId);
+    const produto = db.produtos.find((p) => p.id === item.produtoId && p.lojaId === loja.id);
     if (!produto) return res.status(404).json({ erro: `Produto ${item.produtoId} não encontrado` });
     const variacao = produto.variacoes.find((v) => v.tamanho === item.tamanho);
     if (!variacao) return res.status(404).json({ erro: `Tamanho ${item.tamanho} indisponível para ${produto.nome}` });
@@ -57,7 +57,9 @@ router.post('/', async (req, res) => {
   let cupomAplicado = null;
   let desconto = 0;
   if (cupomCodigo) {
-    const cupom = db.cupons.find((c) => c.codigo.toLowerCase() === String(cupomCodigo).toLowerCase());
+    const cupom = db.cupons.find(
+      (c) => c.lojaId === loja.id && c.codigo.toLowerCase() === String(cupomCodigo).toLowerCase()
+    );
     if (!cupom) return res.status(404).json({ erro: 'Cupom não encontrado' });
     if (cupomStatus(cupom) !== 'ativo') return res.status(400).json({ erro: `Cupom ${cupomStatus(cupom)}` });
     if (subtotal < cupom.valorMinimo) {
@@ -65,7 +67,10 @@ router.post('/', async (req, res) => {
     }
     if (cupom.usoUnicoPorCliente) {
       const jaUsou = db.pedidos.some(
-        (p) => p.cupom?.codigo === cupom.codigo && p.cliente.email.toLowerCase() === cliente.email.toLowerCase()
+        (p) =>
+          p.lojaId === loja.id &&
+          p.cupom?.codigo === cupom.codigo &&
+          p.cliente.email.toLowerCase() === cliente.email.toLowerCase()
       );
       if (jaUsou) return res.status(400).json({ erro: 'Este cupom já foi utilizado por este cliente' });
     }
@@ -74,27 +79,28 @@ router.post('/', async (req, res) => {
     cupom.usosAtuais += 1;
   }
 
-  const freteGratis = metodoEnvio === 'padrao' && subtotal >= db.envio.freteGratisMinimo;
-  const custoEnvio = freteGratis ? 0 : db.envio[metodoEnvio].custo;
+  const freteGratis = metodoEnvio === 'padrao' && subtotal >= loja.envio.freteGratisMinimo;
+  const custoEnvio = freteGratis ? 0 : loja.envio[metodoEnvio].custo;
   const total = Math.max(0, Math.round((subtotal - desconto + custoEnvio) * 100) / 100);
 
   for (const item of itensProcessados) {
-    const produto = db.produtos.find((p) => p.id === item.produtoId);
+    const produto = db.produtos.find((p) => p.id === item.produtoId && p.lojaId === loja.id);
     const variacao = produto.variacoes.find((v) => v.tamanho === item.tamanho);
     variacao.estoque -= item.quantidade;
   }
 
-  const numero = formatarNumeroPedido(db.proximoNumeroPedido);
-  db.proximoNumeroPedido += 1;
+  const numero = formatarNumeroPedido(loja.proximoNumeroPedido);
+  loja.proximoNumeroPedido += 1;
 
   const pedido = {
     numero,
+    lojaId: loja.id,
     data: new Date().toISOString(),
     cliente,
     endereco,
     itens: itensProcessados,
     metodoEnvio,
-    prazoEnvio: db.envio[metodoEnvio].prazo,
+    prazoEnvio: loja.envio[metodoEnvio].prazo,
     cupom: cupomAplicado,
     subtotal,
     desconto,
@@ -113,13 +119,12 @@ router.post('/', async (req, res) => {
   res.status(201).json(pedido);
 });
 
-router.put('/:numero/status', requireAdmin, async (req, res) => {
+router.put('/:numero/status', requireLojaAdmin, async (req, res) => {
   const { status } = req.body;
-  const db = await readDb();
-  const pedido = db.pedidos.find((p) => p.numero === req.params.numero);
+  const pedido = req.db.pedidos.find((p) => p.numero === req.params.numero && p.lojaId === req.loja.id);
   if (!pedido) return res.status(404).json({ erro: 'Pedido não encontrado' });
   pedido.status = status;
-  await writeDb(db);
+  await writeDb(req.db);
   res.json(pedido);
 });
 

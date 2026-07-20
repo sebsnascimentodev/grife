@@ -1,9 +1,11 @@
 import { Link, useLocation, useParams } from 'react-router-dom';
-import { formatarPreco } from '../utils.js';
+import { useStore } from '../context/StoreContext.jsx';
+import { caminhoLoja, formatarPreco } from '../utils.js';
 import './Confirmation.css';
 
 export default function Confirmation() {
   const { numero } = useParams();
+  const { slug } = useStore();
   const location = useLocation();
   const pedido = location.state?.pedido;
 
@@ -11,7 +13,7 @@ export default function Confirmation() {
     return (
       <div className="container confirmation">
         <p className="mono">Não encontramos os detalhes do pedido #GR{numero}.</p>
-        <Link to="/" className="btn">
+        <Link to={caminhoLoja(slug)} className="btn">
           Voltar para a loja
         </Link>
       </div>
@@ -57,7 +59,7 @@ export default function Confirmation() {
         </div>
       </div>
 
-      <Link to="/" className="btn">
+      <Link to={caminhoLoja(slug)} className="btn">
         Voltar para a loja
       </Link>
     </div>

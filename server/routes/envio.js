@@ -1,22 +1,21 @@
 import { Router } from 'express';
-import { readDb, writeDb } from '../db.js';
-import { requireAdmin } from '../auth.js';
+import { writeDb } from '../db.js';
+import { requireLojaAdmin } from '../auth.js';
+import { requireLojaAtiva } from './lojas.js';
 
 const router = Router();
 
-router.get('/', async (req, res) => {
-  const db = await readDb();
-  res.json(db.envio);
+router.get('/', requireLojaAtiva, async (req, res) => {
+  res.json(req.loja.envio);
 });
 
-router.put('/', requireAdmin, async (req, res) => {
+router.put('/', requireLojaAdmin, async (req, res) => {
   const { padrao, expresso, freteGratisMinimo } = req.body;
-  const db = await readDb();
-  if (padrao) db.envio.padrao = { ...db.envio.padrao, ...padrao };
-  if (expresso) db.envio.expresso = { ...db.envio.expresso, ...expresso };
-  if (freteGratisMinimo !== undefined) db.envio.freteGratisMinimo = Number(freteGratisMinimo);
-  await writeDb(db);
-  res.json(db.envio);
+  if (padrao) req.loja.envio.padrao = { ...req.loja.envio.padrao, ...padrao };
+  if (expresso) req.loja.envio.expresso = { ...req.loja.envio.expresso, ...expresso };
+  if (freteGratisMinimo !== undefined) req.loja.envio.freteGratisMinimo = Number(freteGratisMinimo);
+  await writeDb(req.db);
+  res.json(req.loja.envio);
 });
 
 export default router;

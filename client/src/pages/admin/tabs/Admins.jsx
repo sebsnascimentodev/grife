@@ -1,21 +1,21 @@
 import { useEffect, useState } from 'react';
-import { criarAdmin, listarAdmins } from '../../../api.js';
+import { criarAdminLoja, listarAdminsLoja } from '../../../api.js';
 import { cpfValido } from '../../../cpf.js';
 
 const VAZIO = { nome: '', email: '', cpf: '', senha: '' };
 
-export default function Admins() {
+export default function Admins({ slug }) {
   const [admins, setAdmins] = useState([]);
   const [novo, setNovo] = useState(VAZIO);
   const [erro, setErro] = useState(null);
 
   async function carregar() {
-    setAdmins(await listarAdmins());
+    setAdmins(await listarAdminsLoja(slug));
   }
 
   useEffect(() => {
     carregar();
-  }, []);
+  }, [slug]);
 
   async function onCriar(e) {
     e.preventDefault();
@@ -25,7 +25,7 @@ export default function Admins() {
       return;
     }
     try {
-      await criarAdmin(novo);
+      await criarAdminLoja(slug, novo);
       setNovo(VAZIO);
       await carregar();
     } catch (e) {

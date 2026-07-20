@@ -5,164 +5,366 @@
       "marca": "Nike",
       "nome": "Jaqueta Windrunner",
       "categoria": "Masculino",
-      "preco": 899.90,
+      "preco": 899.9,
       "descricao": "Jaqueta corta-vento Nike Windrunner, tecido leve e impermeável, corte reto com capuz ajustável. Ícone do streetwear desde os anos 80.",
       "tag": "NOVO",
-      "promocao": { "ativa": false, "tipo": "percentual", "valor": 0, "inicio": null, "fim": null },
+      "promocao": {
+        "ativa": false,
+        "tipo": "percentual",
+        "valor": 0,
+        "inicio": null,
+        "fim": null
+      },
       "variacoes": [
-        { "tamanho": "PP", "estoque": 6 },
-        { "tamanho": "P", "estoque": 9 },
-        { "tamanho": "M", "estoque": 12 },
-        { "tamanho": "G", "estoque": 4 },
-        { "tamanho": "GG", "estoque": 0 }
-      ]
+        {
+          "tamanho": "PP",
+          "estoque": 6
+        },
+        {
+          "tamanho": "P",
+          "estoque": 9
+        },
+        {
+          "tamanho": "M",
+          "estoque": 12
+        },
+        {
+          "tamanho": "G",
+          "estoque": 4
+        },
+        {
+          "tamanho": "GG",
+          "estoque": 0
+        }
+      ],
+      "imagem": "/produtos/p1-jaqueta-windrunner.avif"
     },
     {
       "id": "p2",
       "marca": "Adidas",
       "nome": "Moletom Trefoil",
       "categoria": "Masculino",
-      "preco": 449.90,
+      "preco": 449.9,
       "descricao": "Moletom com capuz Adidas Originals, estampa Trefoil bordada no peito, algodão felpado macio por dentro.",
       "tag": "HOT",
-      "promocao": { "ativa": true, "tipo": "percentual", "valor": 15, "inicio": "2026-07-01", "fim": "2026-08-15" },
+      "promocao": {
+        "ativa": true,
+        "tipo": "percentual",
+        "valor": 15,
+        "inicio": "2026-07-01",
+        "fim": "2026-08-15"
+      },
       "variacoes": [
-        { "tamanho": "PP", "estoque": 8 },
-        { "tamanho": "P", "estoque": 10 },
-        { "tamanho": "M", "estoque": 2 },
-        { "tamanho": "G", "estoque": 7 },
-        { "tamanho": "GG", "estoque": 5 }
-      ]
+        {
+          "tamanho": "PP",
+          "estoque": 8
+        },
+        {
+          "tamanho": "P",
+          "estoque": 10
+        },
+        {
+          "tamanho": "M",
+          "estoque": 2
+        },
+        {
+          "tamanho": "G",
+          "estoque": 7
+        },
+        {
+          "tamanho": "GG",
+          "estoque": 5
+        }
+      ],
+      "imagem": "/produtos/p2-moletom-trefoil.png"
     },
     {
       "id": "p3",
       "marca": "Lacoste",
       "nome": "Polo Piqué Classic",
       "categoria": "Masculino",
-      "preco": 599.00,
+      "preco": 599,
       "descricao": "Camisa polo Lacoste em piqué de algodão, corte clássico e o icônico crocodilo bordado no peito.",
       "tag": null,
-      "promocao": { "ativa": false, "tipo": "percentual", "valor": 0, "inicio": null, "fim": null },
+      "promocao": {
+        "ativa": false,
+        "tipo": "percentual",
+        "valor": 0,
+        "inicio": null,
+        "fim": null
+      },
       "variacoes": [
-        { "tamanho": "PP", "estoque": 5 },
-        { "tamanho": "P", "estoque": 6 },
-        { "tamanho": "M", "estoque": 11 },
-        { "tamanho": "G", "estoque": 9 },
-        { "tamanho": "GG", "estoque": 3 }
-      ]
+        {
+          "tamanho": "PP",
+          "estoque": 5
+        },
+        {
+          "tamanho": "P",
+          "estoque": 6
+        },
+        {
+          "tamanho": "M",
+          "estoque": 11
+        },
+        {
+          "tamanho": "G",
+          "estoque": 9
+        },
+        {
+          "tamanho": "GG",
+          "estoque": 3
+        }
+      ],
+      "imagem": "/produtos/p3-polo-pique-classic.png"
     },
     {
       "id": "p4",
       "marca": "Hugo Boss",
       "nome": "Camisa Slim Fit",
       "categoria": "Masculino",
-      "preco": 749.00,
+      "preco": 749,
       "descricao": "Camisa social Hugo Boss em algodão egípcio, corte slim fit, ideal para looks alfaiataria com pegada streetwear.",
       "tag": "NOVO",
-      "promocao": { "ativa": false, "tipo": "percentual", "valor": 0, "inicio": null, "fim": null },
+      "promocao": {
+        "ativa": false,
+        "tipo": "percentual",
+        "valor": 0,
+        "inicio": null,
+        "fim": null
+      },
       "variacoes": [
-        { "tamanho": "PP", "estoque": 4 },
-        { "tamanho": "P", "estoque": 7 },
-        { "tamanho": "M", "estoque": 8 },
-        { "tamanho": "G", "estoque": 6 },
-        { "tamanho": "GG", "estoque": 2 }
-      ]
+        {
+          "tamanho": "PP",
+          "estoque": 4
+        },
+        {
+          "tamanho": "P",
+          "estoque": 7
+        },
+        {
+          "tamanho": "M",
+          "estoque": 8
+        },
+        {
+          "tamanho": "G",
+          "estoque": 6
+        },
+        {
+          "tamanho": "GG",
+          "estoque": 2
+        }
+      ],
+      "imagem": "/produtos/p4-camisa-slim-fit.png"
     },
     {
       "id": "p5",
       "marca": "Saint Laurent",
       "nome": "Jaqueta de Couro",
       "categoria": "Feminino",
-      "preco": 4599.00,
+      "preco": 4599,
       "descricao": "Jaqueta de couro legítimo Saint Laurent, modelagem biker, forro em viscose e ferragens metálicas envelhecidas.",
       "tag": "RARO",
-      "promocao": { "ativa": false, "tipo": "percentual", "valor": 0, "inicio": null, "fim": null },
+      "promocao": {
+        "ativa": false,
+        "tipo": "percentual",
+        "valor": 0,
+        "inicio": null,
+        "fim": null
+      },
       "variacoes": [
-        { "tamanho": "PP", "estoque": 1 },
-        { "tamanho": "P", "estoque": 2 },
-        { "tamanho": "M", "estoque": 3 },
-        { "tamanho": "G", "estoque": 0 },
-        { "tamanho": "GG", "estoque": 0 }
-      ]
+        {
+          "tamanho": "PP",
+          "estoque": 1
+        },
+        {
+          "tamanho": "P",
+          "estoque": 2
+        },
+        {
+          "tamanho": "M",
+          "estoque": 3
+        },
+        {
+          "tamanho": "G",
+          "estoque": 0
+        },
+        {
+          "tamanho": "GG",
+          "estoque": 0
+        }
+      ],
+      "imagem": "/produtos/p5-jaqueta-de-couro.png"
     },
     {
       "id": "p6",
       "marca": "Polo Ralph Lauren",
       "nome": "Vestido Listrado",
       "categoria": "Feminino",
-      "preco": 899.00,
+      "preco": 899,
       "descricao": "Vestido midi Polo Ralph Lauren em listras clássicas, tecido leve de algodão e caimento reto.",
       "tag": null,
-      "promocao": { "ativa": true, "tipo": "fixo", "valor": 100, "inicio": "2026-06-15", "fim": "2026-07-31" },
+      "promocao": {
+        "ativa": true,
+        "tipo": "fixo",
+        "valor": 100,
+        "inicio": "2026-06-15",
+        "fim": "2026-07-31"
+      },
       "variacoes": [
-        { "tamanho": "PP", "estoque": 5 },
-        { "tamanho": "P", "estoque": 6 },
-        { "tamanho": "M", "estoque": 6 },
-        { "tamanho": "G", "estoque": 4 },
-        { "tamanho": "GG", "estoque": 3 }
-      ]
+        {
+          "tamanho": "PP",
+          "estoque": 5
+        },
+        {
+          "tamanho": "P",
+          "estoque": 6
+        },
+        {
+          "tamanho": "M",
+          "estoque": 6
+        },
+        {
+          "tamanho": "G",
+          "estoque": 4
+        },
+        {
+          "tamanho": "GG",
+          "estoque": 3
+        }
+      ],
+      "imagem": "/produtos/p6-vestido-listrado.png"
     },
     {
       "id": "p7",
       "marca": "Nike",
       "nome": "Air Max 90",
       "categoria": "Calçados",
-      "preco": 999.90,
+      "preco": 999.9,
       "descricao": "Tênis Nike Air Max 90, unidade de amortecimento visível no calcanhar, cabedal em couro e mesh.",
       "tag": "HOT",
-      "promocao": { "ativa": false, "tipo": "percentual", "valor": 0, "inicio": null, "fim": null },
+      "promocao": {
+        "ativa": false,
+        "tipo": "percentual",
+        "valor": 0,
+        "inicio": null,
+        "fim": null
+      },
       "variacoes": [
-        { "tamanho": "38", "estoque": 5 },
-        { "tamanho": "39", "estoque": 7 },
-        { "tamanho": "40", "estoque": 9 },
-        { "tamanho": "41", "estoque": 6 },
-        { "tamanho": "42", "estoque": 2 },
-        { "tamanho": "43", "estoque": 0 }
-      ]
+        {
+          "tamanho": "38",
+          "estoque": 5
+        },
+        {
+          "tamanho": "39",
+          "estoque": 7
+        },
+        {
+          "tamanho": "40",
+          "estoque": 9
+        },
+        {
+          "tamanho": "41",
+          "estoque": 6
+        },
+        {
+          "tamanho": "42",
+          "estoque": 2
+        },
+        {
+          "tamanho": "43",
+          "estoque": 0
+        }
+      ],
+      "imagem": "/produtos/p7-air-max-90.png"
     },
     {
       "id": "p8",
       "marca": "Adidas",
       "nome": "Samba OG",
       "categoria": "Calçados",
-      "preco": 799.00,
+      "preco": 799,
       "descricao": "Adidas Samba OG em couro, o clássico de campo que virou ícone das ruas, solado de borracha gum.",
       "tag": null,
-      "promocao": { "ativa": false, "tipo": "percentual", "valor": 0, "inicio": null, "fim": null },
+      "promocao": {
+        "ativa": false,
+        "tipo": "percentual",
+        "valor": 0,
+        "inicio": null,
+        "fim": null
+      },
       "variacoes": [
-        { "tamanho": "38", "estoque": 4 },
-        { "tamanho": "39", "estoque": 5 },
-        { "tamanho": "40", "estoque": 8 },
-        { "tamanho": "41", "estoque": 8 },
-        { "tamanho": "42", "estoque": 5 },
-        { "tamanho": "43", "estoque": 3 }
-      ]
+        {
+          "tamanho": "38",
+          "estoque": 4
+        },
+        {
+          "tamanho": "39",
+          "estoque": 5
+        },
+        {
+          "tamanho": "40",
+          "estoque": 8
+        },
+        {
+          "tamanho": "41",
+          "estoque": 8
+        },
+        {
+          "tamanho": "42",
+          "estoque": 5
+        },
+        {
+          "tamanho": "43",
+          "estoque": 3
+        }
+      ],
+      "imagem": "/produtos/p8-samba-og.png"
     },
     {
       "id": "p9",
       "marca": "Saint Laurent",
       "nome": "Cinto de Couro Monogram",
       "categoria": "Acessórios",
-      "preco": 2199.00,
+      "preco": 2199,
       "descricao": "Cinto Saint Laurent em couro liso com fivela monograma banhada a ouro. Peça statement e atemporal.",
       "tag": "RARO",
-      "promocao": { "ativa": false, "tipo": "percentual", "valor": 0, "inicio": null, "fim": null },
+      "promocao": {
+        "ativa": false,
+        "tipo": "percentual",
+        "valor": 0,
+        "inicio": null,
+        "fim": null
+      },
       "variacoes": [
-        { "tamanho": "ÚNICO", "estoque": 1 }
-      ]
+        {
+          "tamanho": "ÚNICO",
+          "estoque": 1
+        }
+      ],
+      "imagem": "/produtos/p9-cinto-de-couro-monogram.png"
     },
     {
       "id": "p10",
       "marca": "Lacoste",
       "nome": "Boné Aba Curva Croc",
       "categoria": "Acessórios",
-      "preco": 349.00,
+      "preco": 349,
       "descricao": "Boné Lacoste aba curva em sarja de algodão, fecho traseiro ajustável e crocodilo bordado frontal.",
       "tag": "NOVO",
-      "promocao": { "ativa": false, "tipo": "percentual", "valor": 0, "inicio": null, "fim": null },
+      "promocao": {
+        "ativa": false,
+        "tipo": "percentual",
+        "valor": 0,
+        "inicio": null,
+        "fim": null
+      },
       "variacoes": [
-        { "tamanho": "ÚNICO", "estoque": 14 }
-      ]
+        {
+          "tamanho": "ÚNICO",
+          "estoque": 14
+        }
+      ],
+      "imagem": "/produtos/p10-bone-aba-curva-croc.png"
     }
   ],
   "cupons": [
@@ -203,8 +405,14 @@
   "pedidos": [],
   "proximoNumeroPedido": 1,
   "envio": {
-    "padrao": { "custo": 29.90, "prazo": "7 a 10 dias úteis" },
-    "expresso": { "custo": 59.90, "prazo": "2 a 4 dias úteis" },
+    "padrao": {
+      "custo": 29.9,
+      "prazo": "7 a 10 dias úteis"
+    },
+    "expresso": {
+      "custo": 59.9,
+      "prazo": "2 a 4 dias úteis"
+    },
     "freteGratisMinimo": 500
   },
   "usuarios": []

@@ -43,7 +43,11 @@ export default function ProductPage() {
     <div className="product-page container">
       <div className="product-page__topo">
         <div className="product-page__imagem">
-          <span className="titulo">{produto.marca[0]}</span>
+          {produto.imagem ? (
+            <img src={produto.imagem} alt={produto.nome} />
+          ) : (
+            <span className="titulo">{produto.marca[0]}</span>
+          )}
           {produto.tagExibida && <span className="tag">{produto.tagExibida}</span>}
         </div>
 

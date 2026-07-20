@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { getToken, loginUsuario, obterUsuarioAtual, registrarUsuario, setToken } from '../api.js';
+import { getToken, loginLoja, loginUsuario, obterUsuarioAtual, registrarUsuario, setToken } from '../api.js';
 
 const AuthContext = createContext(null);
 
@@ -35,6 +35,19 @@ export function AuthProvider({ children }) {
     }
   }
 
+  async function loginNaLoja(slug, email, senha) {
+    setErro(null);
+    try {
+      const { token, usuario: dados } = await loginLoja(slug, email, senha);
+      setToken(token);
+      setUsuario(dados);
+      return true;
+    } catch (e) {
+      setErro(e.message);
+      return false;
+    }
+  }
+
   async function registrar(payload) {
     setErro(null);
     try {
@@ -54,10 +67,13 @@ export function AuthProvider({ children }) {
   }
 
   const autenticado = !!usuario;
-  const ehAdmin = usuario?.papel === 'admin';
+  const ehSuperAdmin = usuario?.papel === 'superadmin';
+  const ehAdmin = usuario?.papel === 'admin' || ehSuperAdmin;
 
   return (
-    <AuthContext.Provider value={{ usuario, autenticado, ehAdmin, carregando, erro, login, registrar, logout }}>
+    <AuthContext.Provider
+      value={{ usuario, autenticado, ehAdmin, ehSuperAdmin, carregando, erro, login, loginNaLoja, registrar, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );

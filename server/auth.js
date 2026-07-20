@@ -7,8 +7,8 @@ function sign(payloadB64) {
   return createHmac('sha256', SECRET).update(payloadB64).digest('base64url');
 }
 
-export function issueToken({ id, papel }) {
-  const payload = { id, papel, exp: Date.now() + TOKEN_TTL_MS };
+export function issueToken({ id, papel, lojaId }) {
+  const payload = { id, papel, lojaId: lojaId ?? null, exp: Date.now() + TOKEN_TTL_MS };
   const payloadB64 = Buffer.from(JSON.stringify(payload)).toString('base64url');
   return `${payloadB64}.${sign(payloadB64)}`;
 }
@@ -43,7 +43,33 @@ export function requireAuth(req, res, next) {
 export function requireAdmin(req, res, next) {
   const payload = lerToken(req);
   if (!payload) return res.status(401).json({ erro: 'Não autenticado' });
-  if (payload.papel !== 'admin') return res.status(403).json({ erro: 'Acesso restrito a administradores' });
+  if (payload.papel !== 'admin' && payload.papel !== 'superadmin') {
+    return res.status(403).json({ erro: 'Acesso restrito a administradores' });
+  }
+  req.usuario = payload;
+  next();
+}
+
+export function requireSuperAdmin(req, res, next) {
+  const payload = lerToken(req);
+  if (!payload) return res.status(401).json({ erro: 'Não autenticado' });
+  if (payload.papel !== 'superadmin') return res.status(403).json({ erro: 'Acesso restrito ao super admin' });
+  req.usuario = payload;
+  next();
+}
+
+// Admin da própria loja (req.loja precisa ter sido resolvido antes, por resolveLoja).
+// Super admin tem acesso de bypass a qualquer loja.
+export function requireLojaAdmin(req, res, next) {
+  const payload = lerToken(req);
+  if (!payload) return res.status(401).json({ erro: 'Não autenticado' });
+  if (payload.papel === 'superadmin') {
+    req.usuario = payload;
+    return next();
+  }
+  if (payload.papel !== 'admin' || payload.lojaId !== req.loja?.id) {
+    return res.status(403).json({ erro: 'Acesso restrito ao administrador desta loja' });
+  }
   req.usuario = payload;
   next();
 }

@@ -2,14 +2,14 @@ import { useState } from 'react';
 import { atualizarPreco } from '../../../api.js';
 import { formatarPreco } from '../../../utils.js';
 
-export default function Precos({ produtos, recarregar }) {
+export default function Precos({ slug, produtos, recarregar }) {
   const [salvando, setSalvando] = useState(null);
 
   async function salvar(produtoId, valor) {
     const preco = Number(valor);
     if (Number.isNaN(preco) || preco < 0) return;
     setSalvando(produtoId);
-    await atualizarPreco(produtoId, preco);
+    await atualizarPreco(slug, produtoId, preco);
     await recarregar();
     setSalvando(null);
   }

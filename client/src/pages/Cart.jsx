@@ -3,12 +3,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext.jsx';
 import { useStore } from '../context/StoreContext.jsx';
 import { validarCupom } from '../api.js';
-import { formatarPreco, calcularSubtotal } from '../utils.js';
+import { caminhoLoja, formatarPreco, calcularSubtotal } from '../utils.js';
 import './Cart.css';
 
 export default function Cart() {
   const { itens, atualizarQuantidade, remover } = useCart();
-  const { produtos, envio } = useStore();
+  const { slug, produtos, envio } = useStore();
   const navigate = useNavigate();
   const [codigoCupom, setCodigoCupom] = useState('');
   const [cupom, setCupom] = useState(null);
@@ -36,7 +36,7 @@ export default function Cart() {
     e.preventDefault();
     setErroCupom(null);
     try {
-      const resultado = await validarCupom(codigoCupom, subtotal);
+      const resultado = await validarCupom(slug, codigoCupom, subtotal);
       setCupom(resultado);
     } catch (e) {
       setCupom(null);
@@ -48,7 +48,7 @@ export default function Cart() {
     return (
       <div className="container cart cart--vazio">
         <h1 className="titulo">Sua sacola está vazia</h1>
-        <Link to="/" className="btn">
+        <Link to={caminhoLoja(slug)} className="btn">
           Ver produtos
         </Link>
       </div>
@@ -70,7 +70,11 @@ export default function Cart() {
           {itensDetalhados.map((item) => (
             <li key={`${item.produtoId}-${item.tamanho}`} className="cart__item card">
               <div className="cart__item-imagem">
-                <span className="titulo">{item.produto.marca[0]}</span>
+                {item.produto.imagem ? (
+                  <img src={item.produto.imagem} alt={item.produto.nome} />
+                ) : (
+                  <span className="titulo">{item.produto.marca[0]}</span>
+                )}
               </div>
               <div className="cart__item-info">
                 <p className="mono">{item.produto.marca}</p>
@@ -140,7 +144,7 @@ export default function Cart() {
           <button
             className="btn cart__finalizar"
             onClick={() =>
-              navigate('/checkout', { state: { cupom: cupom ? { codigo: cupom.codigo } : null } })
+              navigate(caminhoLoja(slug, '/checkout'), { state: { cupom: cupom ? { codigo: cupom.codigo } : null } })
             }
           >
             Ir para o checkout

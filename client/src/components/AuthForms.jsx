@@ -8,8 +8,10 @@ export default function AuthForms({
   tituloEntrar = 'Entrar',
   tituloCriar = 'Criar conta',
   somenteLogin = false,
+  login: loginCustom,
 }) {
-  const { login, registrar, erro } = useAuth();
+  const { login: loginPadrao, registrar, erro } = useAuth();
+  const login = loginCustom ?? loginPadrao;
   const [aba, setAba] = useState('entrar');
   const [enviando, setEnviando] = useState(false);
 

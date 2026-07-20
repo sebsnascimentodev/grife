@@ -1,23 +1,30 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 
 const CartContext = createContext(null);
-const STORAGE_KEY = 'grife_carrinho';
 
-function carregarInicial() {
+function chaveArmazenamento(slug) {
+  return `grife_carrinho_${slug}`;
+}
+
+function carregarInicial(slug) {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = localStorage.getItem(chaveArmazenamento(slug));
     return raw ? JSON.parse(raw) : [];
   } catch {
     return [];
   }
 }
 
-export function CartProvider({ children }) {
-  const [itens, setItens] = useState(carregarInicial);
+export function CartProvider({ slug, children }) {
+  const [itens, setItens] = useState(() => carregarInicial(slug));
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(itens));
-  }, [itens]);
+    setItens(carregarInicial(slug));
+  }, [slug]);
+
+  useEffect(() => {
+    localStorage.setItem(chaveArmazenamento(slug), JSON.stringify(itens));
+  }, [slug, itens]);
 
   function adicionar(produtoId, tamanho, quantidade = 1) {
     setItens((atual) => {

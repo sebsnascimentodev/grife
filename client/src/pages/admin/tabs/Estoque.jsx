@@ -3,14 +3,14 @@ import { atualizarEstoque } from '../../../api.js';
 
 const LIMITE_ESTOQUE_BAIXO = 3;
 
-export default function Estoque({ produtos, recarregar }) {
+export default function Estoque({ slug, produtos, recarregar }) {
   const [salvando, setSalvando] = useState(null);
 
   async function salvar(produtoId, tamanho, valor) {
     const estoque = Number(valor);
     if (Number.isNaN(estoque) || estoque < 0) return;
     setSalvando(`${produtoId}-${tamanho}`);
-    await atualizarEstoque(produtoId, tamanho, estoque);
+    await atualizarEstoque(slug, produtoId, tamanho, estoque);
     await recarregar();
     setSalvando(null);
   }

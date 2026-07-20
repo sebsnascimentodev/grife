@@ -5,16 +5,16 @@ import { formatarPreco } from '../../../utils.js';
 const TAXA_SIMULADA = 0.05;
 const STATUS_OPCOES = ['Confirmado', 'Em preparação', 'Enviado', 'Entregue', 'Cancelado'];
 
-export default function Financeiro() {
+export default function Financeiro({ slug }) {
   const [pedidos, setPedidos] = useState([]);
 
   async function carregar() {
-    setPedidos(await listarPedidos());
+    setPedidos(await listarPedidos(slug));
   }
 
   useEffect(() => {
     carregar();
-  }, []);
+  }, [slug]);
 
   const pedidosValidos = pedidos.filter((p) => p.status !== 'Cancelado');
   const totalVendido = pedidosValidos.reduce((soma, p) => soma + p.total, 0);
@@ -22,7 +22,7 @@ export default function Financeiro() {
   const saldoDisponivel = totalVendido - taxas;
 
   async function mudarStatus(numero, status) {
-    await atualizarStatusPedido(numero, status);
+    await atualizarStatusPedido(slug, numero, status);
     await carregar();
   }
 

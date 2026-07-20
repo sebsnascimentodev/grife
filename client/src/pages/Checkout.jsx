@@ -4,7 +4,7 @@ import { useCart } from '../context/CartContext.jsx';
 import { useStore } from '../context/StoreContext.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 import { criarPedido } from '../api.js';
-import { formatarPreco, calcularSubtotal } from '../utils.js';
+import { caminhoLoja, formatarPreco, calcularSubtotal } from '../utils.js';
 import { buscarEnderecoPorCep } from '../cep.js';
 import PaymentBrick from '../components/PaymentBrick.jsx';
 import AuthForms from '../components/AuthForms.jsx';
@@ -17,7 +17,7 @@ const UFS = [
 
 export default function Checkout() {
   const { itens, limpar } = useCart();
-  const { produtos, envio } = useStore();
+  const { slug, produtos, envio } = useStore();
   const { usuario, autenticado } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
@@ -123,7 +123,7 @@ export default function Checkout() {
     setErro(null);
     setProcessandoPedido(true);
     try {
-      const pedido = await criarPedido({
+      const pedido = await criarPedido(slug, {
         cliente,
         endereco,
         itens: itens.map((i) => ({ produtoId: i.produtoId, tamanho: i.tamanho, quantidade: i.quantidade })),
@@ -136,7 +136,7 @@ export default function Checkout() {
         },
       });
       limpar();
-      navigate(`/confirmacao/${pedido.numero.replace('#', '')}`, { state: { pedido } });
+      navigate(caminhoLoja(slug, `/confirmacao/${pedido.numero.replace('#', '')}`), { state: { pedido } });
     } catch (e) {
       setErro(`Pagamento aprovado, mas houve um erro ao registrar o pedido: ${e.message}`);
     } finally {
